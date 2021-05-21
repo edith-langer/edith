@@ -18,6 +18,8 @@ tmux select-pane -t 0
 tmux split-window -v
 tmux select-pane -t 0
 tmux send-keys "until docker container ls | grep -q edith_png_to_klg_1 ; do sleep 1 ; done ; docker attach edith_png_to_klg_1" C-m
+tmux send-keys "cd /home/v4r/data/scripts/" C-m
+tmux send-keys "./associate.sh"
 tmux select-pane -t 1
 tmux send-keys "until docker container ls | grep -q edith_table_extractor_1 ; do sleep 1 ; done ; docker attach edith_table_extractor_1 " C-m
 tmux send-keys "source /home/v4r/catkin_ws/devel/setup.bash" C-m
@@ -26,6 +28,8 @@ tmux select-pane -t 2
 tmux send-keys "until docker container ls | grep -q edith_elastic_fusion_1 ; do sleep 1 ; done ; docker attach edith_elastic_fusion_1" C-m
 tmux select-pane -t 3
 tmux send-keys "until docker container ls | grep -q edith_orb_slam_1 ; do sleep 1 ; done ; docker attach edith_orb_slam_1" C-m
+tmux send-keys "cd /home/v4r/data/scripts/" C-m
+tmux send-keys "./orb_slam.sh"
 
 
 # Attach to session
