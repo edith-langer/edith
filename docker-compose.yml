@@ -1,0 +1,64 @@
+services:
+  elastic_fusion:
+    build: ./ElasticFusion/
+    image: "elastic_fusion"
+    network_mode: "host"
+    runtime: "nvidia"
+    environment:
+      - DISPLAY
+      - QT_X11_NO_MITSHM=1
+      - MESA_GL_VERSION_OVERRIDE=3.3
+    volumes:
+      - /tmp/.X11-unix:/tmp/.X11-unix
+      - /usr/lib/nvidia-450:/usr/lib/nvidia-450
+      - /usr/lib32/nvidia-450:/usr/lib32/nvidia-450
+      - ./data:/home/v4r/data
+    stdin_open: true
+    tty: true 
+    command: bash
+    privileged: true
+  orb_slam: 
+    build: ./ORB_SLAM2/
+    image: "orb_slam2"
+    network_mode: "host"
+    runtime: "nvidia"
+    environment:
+      - DISPLAY
+      - QT_X11_NO_MITSHM=1
+      - MESA_GL_VERSION_OVERRIDE=3.3
+    volumes:
+      - /tmp/.X11-unix:/tmp/.X11-unix
+      - /usr/lib/nvidia-450:/usr/lib/nvidia-450
+      - /usr/lib32/nvidia-450:/usr/lib32/nvidia-450
+      - ./data:/home/v4r/data
+    stdin_open: true
+    tty: true 
+    command: bash
+    privileged: true
+  png_to_klg:
+    build: ./png_to_klg/
+    image: "png_to_klg"
+    network_mode: "host"
+    volumes:
+      - ./data:/home/v4r/data
+    stdin_open: true
+    tty: true 
+    command: bash
+    privileged: true
+  table_extractor:
+    build: ./table_extractor/
+    image: "table_extractor"
+    network_mode: "host"
+#    ports:
+#      - "62345:62345"
+    environment:
+      - DISPLAY
+    volumes:
+      - /tmp/.X11-unix:/tmp/.X11-unix
+      - ./data:/home/v4r/data
+      - ./mongo_db/table_store:/home/v4r/mongo_db
+    stdin_open: true 
+    tty: true 
+    command: bash
+    privileged: true
+
