@@ -13,7 +13,7 @@ and start a roscore
 
 In the container tmux window, there are 4 panes. 
 
- 	png_to_klg 	 			|	elastic_fusion 	
+ 	png_to_klg 	 	|	elastic_fusion 	
  	------------------------|------------------------
 	table_extractor tmux	|	orb_slam 		
 	
