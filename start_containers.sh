@@ -26,6 +26,8 @@ tmux send-keys "source /home/v4r/catkin_ws/devel/setup.bash" C-m
 tmux send-keys "src/table_extractor/run_table_extractor.sh" C-m
 tmux select-pane -t 2
 tmux send-keys "until docker container ls | grep -q edith_elastic_fusion_1 ; do sleep 1 ; done ; docker attach edith_elastic_fusion_1" C-m
+tmux send-keys "cd /home/v4r/data/scripts/" C-m
+tmux send-keys "./elasticfusion.sh"
 tmux select-pane -t 3
 tmux send-keys "until docker container ls | grep -q edith_orb_slam_1 ; do sleep 1 ; done ; docker attach edith_orb_slam_1" C-m
 tmux send-keys "cd /home/v4r/data/scripts/" C-m
