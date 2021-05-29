@@ -4,19 +4,8 @@ MAINTAINER Yu You <youyu.youyu@gmail.com>
 # old one is 2.4.11
 ENV OPENCV 3.1.0
 
-# Enable the Ubuntu multiverse repository.
-#RUN echo "deb http://us.archive.ubuntu.com/ubuntu/ trusty multiverse" >> /etc/apt/source.list
-#RUN echo "deb-src http://us.archive.ubuntu.com/ubuntu/ trusty multiverse">> /etc/apt/source.list
-#RUN echo "deb http://us.archive.ubuntu.com/ubuntu/ trusty-updates multiverse" >> /etc/apt/source.list
-#RUN echo "deb-src http://us.archive.ubuntu.com/ubuntu/ trusty-updates multiverse" >> /etc/apt/source.list
 # Initial update and install of dependency that can add apt-repos
 RUN apt-get -y update && apt-get install -y software-properties-common python-software-properties
-
-# Add global apt repos
-RUN add-apt-repository -y "deb http://archive.ubuntu.com/ubuntu precise universe" && \
-    add-apt-repository -y "deb http://archive.ubuntu.com/ubuntu precise main restricted universe multiverse" && \
-    add-apt-repository -y "deb http://archive.ubuntu.com/ubuntu precise-updates main restricted universe multiverse" && \
-    add-apt-repository -y "deb http://archive.ubuntu.com/ubuntu precise-backports main restricted universe multiverse"
 
 # Get dependencies
 RUN apt-get update && apt-get install -y \
