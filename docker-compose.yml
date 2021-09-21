@@ -1,49 +1,55 @@
 services:
-  elastic_fusion:
-    build: ./ElasticFusion/
-    image: "elastic_fusion"
-    network_mode: "host"
-    runtime: "nvidia"
-    environment:
-      - DISPLAY
-      - QT_X11_NO_MITSHM=1
-      - MESA_GL_VERSION_OVERRIDE=3.3
-    volumes:
-      - /tmp/.X11-unix:/tmp/.X11-unix
-      - /usr/lib/nvidia-450:/usr/lib/nvidia-450
-      - /usr/lib32/nvidia-450:/usr/lib32/nvidia-450
-      - ./data:/home/v4r/data
-    stdin_open: true
-    tty: true 
-    command: bash
-    privileged: true
-  orb_slam: 
-    build: ./ORB_SLAM2/
-    image: "orb_slam2"
-    network_mode: "host"
-    runtime: "nvidia"
-    environment:
-      - DISPLAY
-      - QT_X11_NO_MITSHM=1
-      - MESA_GL_VERSION_OVERRIDE=3.3
-    volumes:
-      - /tmp/.X11-unix:/tmp/.X11-unix
-      - /usr/lib/nvidia-450:/usr/lib/nvidia-450
-      - /usr/lib32/nvidia-450:/usr/lib32/nvidia-450
-      - ./data:/home/v4r/data
-    stdin_open: true
-    tty: true 
-    command: bash
-    privileged: true
+#  elastic_fusion:
+#    build: ./ElasticFusion/
+#    image: "elastic_fusion"
+#    network_mode: "host"
+#    runtime: "nvidia"
+#    environment:
+#      - DISPLAY
+#      - QT_X11_NO_MITSHM=1
+#      - MESA_GL_VERSION_OVERRIDE=3.3
+#    volumes:
+#      - /tmp/.X11-unix:/tmp/.X11-unix
+#      - /usr/lib/nvidia-450:/usr/lib/nvidia-450
+#      - /usr/lib32/nvidia-450:/usr/lib32/nvidia-450
+#      #- ./data:/home/v4r/data
+#      - /media/markus/FF64-D891/tidy_up_pipeline:/home/v4r/data
+#    stdin_open: true
+#    tty: true 
+#    command: bash
+#    privileged: true
+#  orb_slam: 
+#    build: ./ORB_SLAM2/
+#    image: "orb_slam2"
+#    network_mode: "host"
+#    runtime: "nvidia"
+#    environment:
+#      - DISPLAY
+#      - QT_X11_NO_MITSHM=1
+#      - MESA_GL_VERSION_OVERRIDE=3.3
+#    volumes:
+#      - /tmp/.X11-unix:/tmp/.X11-unix
+#      - /usr/lib/nvidia-450:/usr/lib/nvidia-450
+#      - /usr/lib32/nvidia-450:/usr/lib32/nvidia-450
+#      #- ./data:/home/v4r/data
+#      - /media/markus/FF64-D891/tidy_up_pipeline:/home/v4r/data
+#    stdin_open: true
+#    tty: true 
+#    command: bash
+#    privileged: true
   png_to_klg:
     build: ./png_to_klg/
     image: "png_to_klg"
     network_mode: "host"
+    environment:
+      - "ROS_MASTER_URI=http://hsrb.local:11311"
+      - "ROS_IP=10.0.0.225"
     volumes:
-      - ./data:/home/v4r/data
+      #- ./data:/home/v4r/data
+      - /media/markus/FF64-D891/tidy_up_pipeline:/home/v4r/data
     stdin_open: true
     tty: true 
-    command: bash
+    command: bash -c "source /home/v4r/catkin_ws/devel/setup.bash && rosrun png_to_klg png_to_klg_service.py"
     privileged: true
   table_extractor:
     build: ./table_extractor/
@@ -52,13 +58,15 @@ services:
 #    ports:
 #      - "62345:62345"
     environment:
-      - DISPLAY
+      - "ROS_MASTER_URI=http://hsrb.local:11311"
+      - "ROS_IP=10.0.0.225"
     volumes:
       - /tmp/.X11-unix:/tmp/.X11-unix
-      - ./data:/home/v4r/data
+      #- ./data:/home/v4r/data
+      - /media/markus/FF64-D891/tidy_up_pipeline:/home/v4r/data
       - ./mongo_db/table_store:/home/v4r/mongo_db
     stdin_open: true 
     tty: true 
-    command: bash
+    command: bash -c "source /home/v4r/catkin_ws/devel/setup.bash && rosrun table_extractor read_rosbag.py"
     privileged: true
 
