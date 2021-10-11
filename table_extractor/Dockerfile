@@ -16,7 +16,8 @@ WORKDIR /home/v4r/catkin_ws/src
 RUN git clone https://markus-docker:R_3nRtD8NL1TET_p8tku@rgit.acin.tuwien.ac.at/leitnermrks/table_extractor.git
 #RUN git clone https://gitlab+deploy-token-43:zkdqJHaArD_VVZVYXJUy@rgit.acin.tuwien.ac.at/leitnermrks/stare_at_tables.git
 RUN git clone https://github.com/IFL-CAMP/tf_bag.git
-RUN pip install pyrsistent==0.16.1 transforms3d==0.3.1 open3d_ros_helper==0.2.0.3
+RUN pip install --upgrade setuptools
+RUN pip install pyrsistent==0.16.1 transforms3d==0.3.1 open3d_ros_helper==0.2.0.3 jsonschema==2.4 
 RUN pip install open3d==0.9.0.0
 RUN pip install scikit-image==0.14.5
 WORKDIR /home/v4r/catkin_ws/

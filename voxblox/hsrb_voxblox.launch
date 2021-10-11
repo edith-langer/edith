@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<launch>
+  <arg name="play_bag" default="false" />
+  <arg name="voxel_size" default="0.01"/>
+
+  <node name="voxblox_node" pkg="voxblox_ros" type="tsdf_server" output="screen" args="--alsologtostderr" clear_params="true">
+    <remap from="pointcloud" to="/hsrb/head_rgbd_sensor/depth_registered/rectified_points"/>
+    <param name="tsdf_voxel_size" value="$(arg voxel_size)" />
+    <param name="tsdf_voxels_per_side" value="16" />
+    <param name="voxel_carving_enabled" value="true" />
+    <param name="color_mode" value="color" />
+    <param name="use_tf_transforms" value="true" />
+    <param name="world_frame" value="/map" />
+    <param name="sensor_frame" value="" />
+    <param name="update_mesh_every_n_sec" value="1.0" />
+    <param name="verbose" value="true" />
+    <!--param name="min_time_between_msgs_sec" value="0.2" /-->
+    <param name="method" value="simple" />
+    <param name="max_ray_length_m" value="2.0" />
+    <param name="output_mesh_as_pointcloud" value="true" />
+    <param name="publish_pointclouds" value="True" />
+    <param name="pointcloud_queue_size" value="10000" />
+    <param name="enable_icp" value="True" />
+    <param name="accumulate_icp_corrections" value="False" /> <!--without that objects are not as clean -->
+    <param name="icp_mini_batch_size" value="20" />
+    <param name="icp_subsample_keep_ratio" value="0.5" />
+    <param name="icp_min_match_ratio" value="0.8" />
+    <param name="allow_clear" value="True" />
+    <param name="timestamp_tolerance_sec" value="1.0" />
+
+    <param name="mesh_filename" value="$(find voxblox_ros)/../../../../share/hsrb_result.ply" />
+    <!--<param name="icp_file_path" value="$(find voxblox_ros)/ts_icp.txt" />-->
+
+  </node>
+</launch>

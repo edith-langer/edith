@@ -1,72 +1,92 @@
 services:
-#  elastic_fusion:
-#    build: ./ElasticFusion/
-#    image: "elastic_fusion"
-#    network_mode: "host"
-#    runtime: "nvidia"
-#    environment:
-#      - DISPLAY
-#      - QT_X11_NO_MITSHM=1
-#      - MESA_GL_VERSION_OVERRIDE=3.3
-#    volumes:
-#      - /tmp/.X11-unix:/tmp/.X11-unix
-#      - /usr/lib/nvidia-450:/usr/lib/nvidia-450
-#      - /usr/lib32/nvidia-450:/usr/lib32/nvidia-450
-#      #- ./data:/home/v4r/data
-#      - /media/markus/FF64-D891/tidy_up_pipeline:/home/v4r/data
-#    stdin_open: true
-#    tty: true 
-#    command: bash
-#    privileged: true
-#  orb_slam: 
-#    build: ./ORB_SLAM2/
-#    image: "orb_slam2"
-#    network_mode: "host"
-#    runtime: "nvidia"
-#    environment:
-#      - DISPLAY
-#      - QT_X11_NO_MITSHM=1
-#      - MESA_GL_VERSION_OVERRIDE=3.3
-#    volumes:
-#      - /tmp/.X11-unix:/tmp/.X11-unix
-#      - /usr/lib/nvidia-450:/usr/lib/nvidia-450
-#      - /usr/lib32/nvidia-450:/usr/lib32/nvidia-450
-#      #- ./data:/home/v4r/data
-#      - /media/markus/FF64-D891/tidy_up_pipeline:/home/v4r/data
-#    stdin_open: true
-#    tty: true 
-#    command: bash
-#    privileged: true
   png_to_klg:
     build: ./png_to_klg/
     image: "png_to_klg"
     network_mode: "host"
     environment:
-      - "ROS_MASTER_URI=http://hsrb.local:11311"
-      - "ROS_IP=10.0.0.225"
+      ROS_MASTER_URI: "${DOCKER_ROS_MASTER_URI}"
+      ROS_IP: ${DOCKER_ROS_IP}
     volumes:
-      #- ./data:/home/v4r/data
-      - /media/markus/FF64-D891/tidy_up_pipeline:/home/v4r/data
+      - ${DOCKER_DATA_FOLDER}:/home/v4r/data
     stdin_open: true
     tty: true 
     command: bash -c "source /home/v4r/catkin_ws/devel/setup.bash && rosrun png_to_klg png_to_klg_service.py"
     privileged: true
+    
+    
   table_extractor:
     build: ./table_extractor/
     image: "table_extractor"
     network_mode: "host"
-#    ports:
-#      - "62345:62345"
     environment:
-      - "ROS_MASTER_URI=http://hsrb.local:11311"
-      - "ROS_IP=10.0.0.225"
+      ROS_MASTER_URI: "${DOCKER_ROS_MASTER_URI}"
+      ROS_IP: ${DOCKER_ROS_IP}
     volumes:
       - /tmp/.X11-unix:/tmp/.X11-unix
-      #- ./data:/home/v4r/data
-      - /media/markus/FF64-D891/tidy_up_pipeline:/home/v4r/data
+      - ${DOCKER_DATA_FOLDER}:/home/v4r/data
       - ./mongo_db/table_store:/home/v4r/mongo_db
     stdin_open: true 
     tty: true 
     command: bash -c "source /home/v4r/catkin_ws/devel/setup.bash && rosrun table_extractor read_rosbag.py"
+    privileged: true
+    
+    
+  sparseconvnet:
+    build: ./sparseconvnet/
+    image: "sparseconvnet:latest"
+    network_mode: "host"
+    volumes:
+      - ${DOCKER_DATA_FOLDER}:/root/share
+      - /usr/lib/nvidia/:/usr/lib/nvidia/
+    environment:
+      ROS_MASTER_URI: "${DOCKER_ROS_MASTER_URI}"
+      ROS_IP: ${DOCKER_ROS_IP}
+    command: bash -c "source ~/catkin_build_ws/devel/setup.bash; cd ~/catkin_build_ws/src/sparseconvnet_ros/; bash develop.sh; cd ~/catkin_build_ws/src/sparseconvnet_ros/examples; ROS_NAMESPACE=sparseconvnet_ros python3 ScanNet_inference_from_single_ply_service.py"
+    stdin_open: true
+    tty: true
+    profiles:
+      - first_run
+
+
+  voxblox:
+    build: ./voxblox/
+    image: "voxblox:latest"
+    network_mode: "host"
+    volumes:
+      - ${DOCKER_DATA_FOLDER}:/root/share
+      - /usr/lib/nvidia/:/usr/lib/nvidia/
+    environment:
+      ROS_MASTER_URI: "${DOCKER_ROS_MASTER_URI}"
+      ROS_IP: ${DOCKER_ROS_IP}
+    #command: bash -c "source /home/v4r/catkin_ws/devel/setup.bash; sed -i 's+$$(find voxblox_ros)/mesh_results/hsrb_result.ply+/root/share/hsrb_result.ply+g' /home/v4r/catkin_ws/src/voxblox/voxblox_ros/launch/hsrb_voxblox.launch; sed -i 's+"tsdf_voxel_size" value="0.1"+"tsdf_voxel_size" value="0.01"+g' /home/v4r/catkin_ws/src/voxblox/voxblox_ros/launch/hsrb_voxblox.launch; cat /home/v4r/catkin_ws/src/voxblox/voxblox_ros/launch/hsrb_voxblox.launch; roslaunch voxblox_ros hsrb_voxblox.launch"
+    command: bash -c "source /root/catkin_ws/devel/setup.bash; roslaunch voxblox_ros hsrb_voxblox.launch"
+    stdin_open: true
+    tty: true
+    profiles: 
+      - first_run
+
+
+  elasticfusion:
+    build: ./elasticFusion/
+    image: "elasticfusion:latest"
+    network_mode: "host"
+    runtime: "nvidia"
+    volumes:
+      - ${DOCKER_DATA_FOLDER}:/root/share
+      - /usr/lib/nvidia/:/usr/lib/nvidia/
+      - /usr/lib/nvidia-450:/usr/lib/nvidia-450
+      - /usr/lib32/nvidia-450:/usr/lib32/nvidia-450
+      - /tmp/.X11-unix:/tmp/.X11-unix
+    environment:
+      DISPLAY: ":1"
+      QT_X11_NO_MITSHM: "1"
+      MESA_GL_VERSION_OVERRIDE: "3.3"
+      ROS_MASTER_URI: "${DOCKER_ROS_MASTER_URI}"
+      ROS_IP: ${DOCKER_ROS_IP}
+    command: bash -c "source /root/catkin_ws/devel/setup.bash  ;rosrun elastic_fusion_ros elastic_fusion_ros_server.py"
+    #-c "ElasticFusion -l /root/share/scene.klg -p /root/share/CameraTrajectory.txt -cal /root/share/camera_EF.cfg d 2 -c 15 -cv 1e-01 -ie 1e-05 -pt 60 -f  -q -name scene"
+# ElasticFusion -l /root/share/read_rosbag/plane_3/plane_3.klg -p /root/share/read_rosbag/plane_3/planes/tf.txt -cal /root/share/camera_EF.cfg d 2 -c 15 -cv 1e-01 -ie 1e-05 -pt 60 -q -name scene
+    stdin_open: true
+    tty: true
     privileged: true
 
