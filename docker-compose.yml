@@ -1,4 +1,20 @@
 services:
+  object_matching:
+    build: ./obj_det_ppf_matching
+    image: "object_matching"
+    network_mode: "host"
+    environment:
+      ROS_MASTER_URI: "${DOCKER_ROS_MASTER_URI}"
+      ROS_IP: ${DOCKER_ROS_IP}
+    volumes:
+      - /tmp/.X11-unix:/tmp/.X11-unix
+      - ${DOCKER_DATA_FOLDER}:/home/v4r/data
+    stdin_open: true 
+    tty: true 
+    command: bash -c "source /home/v4r/catkin_ws/devel/setup.bash && rosrun obj_det_ppf_matching obj_det_ppf_matching_node"
+    privileged: true
+
+
   png_to_klg:
     build: ./png_to_klg/
     image: "png_to_klg"
