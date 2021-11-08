@@ -105,4 +105,17 @@ services:
     stdin_open: true
     tty: true
     privileged: true
+    
+  visualization:
+    build: ./edith_visualization/
+    image: "edith_visualization"
+    network_mode: "host"
+    environment:
+      ROS_MASTER_URI: "${DOCKER_ROS_MASTER_URI}"
+      ROS_IP: ${DOCKER_ROS_IP}
+    stdin_open: true 
+    tty: true 
+    command: bash -c "source /root/catkin_ws/devel/setup.bash && rosrun edith_visualization_service visualization.py"
+    privileged: true
+    
 

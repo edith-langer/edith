@@ -16,7 +16,7 @@ WORKDIR /home/v4r/catkin_ws/src
 
 RUN git clone https://gitlab+deploy-token-48:jeyTiGp2G61TJko962p7@rgit.acin.tuwien.ac.at/hsr-tidyup-pipeline/obj_det_ppf_matching.git
 RUN git clone https://gitlab+deploy-token-50:cqZ5fHtQTWYXFtP2DRE-@rgit.acin.tuwien.ac.at/hsr-tidyup-pipeline/obj_det_ppf_matching_msgs.git
-RUN git clone https://markus-docker:R_3nRtD8NL1TET_p8tku@rgit.acin.tuwien.ac.at/leitnermrks/table_extractor.git
+RUN git clone https://gitlab+deploy-token-51:U2TwdynH5NrMTUVX1hUp@rgit.acin.tuwien.ac.at/markus_projects/edith_msgs.git
 RUN git clone -b matching_refactoring https://gitlab+deploy-token-49:PuyyiE_FuZTR7pzTMRJd@rgit.acin.tuwien.ac.at/edith-langer/tidyupvisionpipeline.git
 #RUN git clone https://gitlab+deploy-token-43:zkdqJHaArD_VVZVYXJUy@rgit.acin.tuwien.ac.at/leitnermrks/stare_at_tables.git
 
