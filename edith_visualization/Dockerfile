@@ -42,13 +42,13 @@ ENV ROS_DISTRO melodic
 RUN apt-get update
 RUN apt-get install -y python-pip 
 RUN pip install --upgrade pip setuptools
-RUN pip install open3d
+RUN pip install open3d open3d_ros_helper
 #RUN rosdep init && \
 #    rosdep update
 
 # catkin tools
 RUN apt-get update && apt-get install --no-install-recommends -y --allow-unauthenticated \
-     python-catkin-tools \
+     python-catkin-tools ros-melodic-ros-numpy \
      && rm -rf /var/lib/apt/lists/*
 
 # for ros environments

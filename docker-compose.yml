@@ -1,6 +1,11 @@
 services:
   object_matching:
-    build: ./obj_det_ppf_matching
+    build: 
+      context: ./obj_det_ppf_matching
+      args:
+        MSGS_REPO: ${MSGS_REPO}
+        TIDYUPVISION_REPO: ${TIDYUPVISION_REPO}
+        MATCHING_REPO: ${MATCHING_REPO}
     image: "object_matching"
     network_mode: "host"
     environment:

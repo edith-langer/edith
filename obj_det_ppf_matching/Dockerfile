@@ -2,6 +2,10 @@ FROM ros:melodic-perception-bionic
 # uJCpNeVz1Q3SaowTUyxF
 SHELL ["/bin/bash", "-c"]
 ENV HOSTNAME=localhost
+ARG TIDYUPVISION_REPO="-b matching_refactoring https://github.com/markusltnr/tidyupvisionpipeline.git"
+ARG MATCHING_REPO="https://github.com/markusltnr/obj_det_ppf_matching.git"
+ARG MSGS_REPO="https://github.com/markusltnr/edith_msgs.git"
+
 
 RUN apt-get update && apt-get -qq -y --allow-unauthenticated install git vim python-catkin-tools python-pip curl
 
@@ -14,9 +18,9 @@ RUN apt-get update && apt-get -qq -y --allow-unauthenticated install \
 	libcmph-dev
 WORKDIR /home/v4r/catkin_ws/src
 
-RUN git clone https://github.com/markusltnr/obj_det_ppf_matching.git
-RUN git clone https://github.com/markusltnr/edith_msgs.git
-RUN git clone -b matching_refactoring https://github.com/markusltnr/tidyupvisionpipeline.git
+RUN git clone ${MATCHING_REPO}
+RUN git clone ${MSGS_REPO}
+RUN git clone ${TIDYUPVISION_REPO}
 #RUN git clone https://gitlab+deploy-token-43:zkdqJHaArD_VVZVYXJUy@rgit.acin.tuwien.ac.at/leitnermrks/stare_at_tables.git
 
 RUN git clone --branch v0.4.0 https://github.com/google/glog.git
