@@ -14,10 +14,9 @@ RUN apt-get update && apt-get -qq -y --allow-unauthenticated install \
 	libcmph-dev
 WORKDIR /home/v4r/catkin_ws/src
 
-RUN git clone https://gitlab+deploy-token-48:jeyTiGp2G61TJko962p7@rgit.acin.tuwien.ac.at/hsr-tidyup-pipeline/obj_det_ppf_matching.git
-RUN git clone https://gitlab+deploy-token-50:cqZ5fHtQTWYXFtP2DRE-@rgit.acin.tuwien.ac.at/hsr-tidyup-pipeline/obj_det_ppf_matching_msgs.git
-RUN git clone https://gitlab+deploy-token-51:U2TwdynH5NrMTUVX1hUp@rgit.acin.tuwien.ac.at/markus_projects/edith_msgs.git
-RUN git clone -b matching_refactoring https://gitlab+deploy-token-49:PuyyiE_FuZTR7pzTMRJd@rgit.acin.tuwien.ac.at/edith-langer/tidyupvisionpipeline.git
+RUN git clone https://github.com/markusltnr/obj_det_ppf_matching.git
+RUN git clone https://github.com/markusltnr/edith_msgs.git
+RUN git clone -b matching_refactoring https://github.com/markusltnr/tidyupvisionpipeline.git
 #RUN git clone https://gitlab+deploy-token-43:zkdqJHaArD_VVZVYXJUy@rgit.acin.tuwien.ac.at/leitnermrks/stare_at_tables.git
 
 RUN git clone --branch v0.4.0 https://github.com/google/glog.git

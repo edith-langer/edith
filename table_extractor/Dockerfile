@@ -13,8 +13,8 @@ RUN apt-get update && apt-get -qq -y --allow-unauthenticated install \
 	ros-melodic-move-base-msgs
 WORKDIR /home/v4r/catkin_ws/src
 
-RUN git clone https://markus-docker:R_3nRtD8NL1TET_p8tku@rgit.acin.tuwien.ac.at/leitnermrks/table_extractor.git
-RUN git clone https://gitlab+deploy-token-51:U2TwdynH5NrMTUVX1hUp@rgit.acin.tuwien.ac.at/markus_projects/edith_msgs.git
+RUN git clone https://github.com/markusltnr/table_extractor.git
+RUN git clone https://github.com/markusltnr/edith_msgs.git
 #RUN git clone https://gitlab+deploy-token-43:zkdqJHaArD_VVZVYXJUy@rgit.acin.tuwien.ac.at/leitnermrks/stare_at_tables.git
 RUN git clone https://github.com/IFL-CAMP/tf_bag.git
 RUN pip install --upgrade setuptools

@@ -28,7 +28,7 @@ RUN make install
 RUN pip install setuptools==44.0.0 numpy==1.12.1
 
 WORKDIR /home/v4r/catkin_ws/src/
-RUN git clone https://gitlab+deploy-token-42:osxNPjt_5yt8HtT-YmV4@rgit.acin.tuwien.ac.at/leitnermrks/png_to_klg.git
+RUN git clone https://github.com/markusltnr/png_to_klg.git
 
 WORKDIR /home/v4r/catkin_ws/src/png_to_klg/build
 RUN cmake ..

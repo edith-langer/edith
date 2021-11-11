@@ -112,7 +112,12 @@ RUN echo "source ~/catkin_build_ws/devel/setup.bash" >> ~/.bashrc
 ENV NVIDIA_VISIBLE_DEVICES all
 ENV NVIDIA_DRIVER_CAPABILITIES compute,utility
 
-RUN git clone --branch robot_experiments https://markus_forks_sparseconvnet:HxzPrDksfBoJFByMMpYo@rgit.acin.tuwien.ac.at/markus_projects/sparseconvnet.git ~/catkin_build_ws/src/sparseconvnet_ros
+RUN \
+  apt-get update && \
+  curl -s https://packagecloud.io/install/repositories/github/git-lfs/script.deb.sh | bash && \
+  apt-get install git-lfs
+
+RUN git clone --branch robot_experiments https://github.com/markusltnr/sparseconvnet_ros.git ~/catkin_build_ws/src/sparseconvnet_ros
 RUN cd ~/catkin_build_ws/ && catkin build
 RUN source ~/catkin_build_ws/devel/setup.bash
 #RUN cd ~/catkin_build_ws/src/sparseconvnet_ros && bash develop.sh
