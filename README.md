@@ -1,7 +1,7 @@
 On the first start, run 
 ```
 xhost local:docker
-docker-compose --profiles first_run up
+docker-compose --profile first_run up
 ```
 
 This will start all the necessary containers. They are:
